@@ -16,13 +16,30 @@ Import the module in your code:
 
 ```javascript
 
-let myInvoice = new MicroInvoice({
-  // Use example from examples/index.js
-});
-// Render invoice as PDF
-myInvoice.generate("example.pdf").then(() => {
-  console.log("Invoice saved");
-});
+var SafeExpression = require("safe-expression");
+
+var execute = new SafeExpression();
+
+// Returns 2
+console.log(execute("1+1"));
+
+// Returns 4
+console.log(execute("1 + value", {
+  value: 3
+}));
+
+// Returns true
+console.log(execute("value === true", {
+  value: 3
+}));
+
+// Executes a function
+var store = {
+  internal_code: () => {
+    console.log("Executed") 
+  }
+};
+execute("internal_code()", store);
 
 ```
 
