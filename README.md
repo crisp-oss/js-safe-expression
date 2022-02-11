@@ -21,15 +21,15 @@ var SafeExpression = require("safe-expression");
 var execute = new SafeExpression();
 
 // Returns 2
-console.log(execute("1+1"));
+console.log(execute("1+1")());
 
 // Returns 4
-console.log(execute("1 + value", {
+console.log(execute("1 + value")({
   value: 3
 }));
 
 // Returns true
-console.log(execute("value === true", {
+console.log(execute("value === true")({
   value: 3
 }));
 
@@ -39,7 +39,7 @@ var store = {
     console.log("Executed") 
   }
 };
-execute("internal_code()", store);
+execute("internal_code()")(store);
 
 ```
 
