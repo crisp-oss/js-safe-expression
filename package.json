@@ -1,0 +1,12 @@
+{
+  "name": "safe-expression",
+  "version": "1.0.0",
+  "description": "🛡️ A lightweight, CSP-safe and fast javascript expression parser/executor",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crisp-oss/js-safe-expression.git"
+  },
+  "author": "Google LLC & Crisp IM SAS",
+  "license": "MIT"
+}
