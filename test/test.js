@@ -228,6 +228,28 @@ it("should not break if the expression is 'hasOwnProperty'", function() {
   // By evaluating hasOwnProperty, the $parse cache will store a getter for
   // the scope's own hasOwnProperty function, which will mess up future cache look ups.
   // i.e. cache['hasOwnProperty'] = function(scope) { return scope.hasOwnProperty; }
-  execute("hasOwnProperty")(scope);
-  //assert.equal(execute("fooExp", scope), "barVal");
+  execute("hasOwnProperty");
+
+  assert.equal(execute("fooExp")(scope), "barVal");
+});
+
+it("should evaluate grouped expressions", function() {
+  var scope = {};
+
+  assert.equal(execute("(1+2)*3")(scope), (1 + 2) * 3);
+});
+
+it("should evaluate assignments", function() {
+  var scope = {}; 
+
+  assert.equal(execute("a=12")(scope), 12);
+  assert.equal(scope.a, 12);
+
+  assert.equal(execute("x.y.z=123;")(scope), 123);
+  assert.equal(scope.x.y.z, 123);
+
+  assert.equal(execute("a=123; b=234")(scope), 234);
+  assert.equal(scope.x.y.z, 123);
+  assert.equal(scope.a, 123);
+  assert.equal(scope.b, 234);
 });
