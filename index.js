@@ -8,9 +8,16 @@
  *     Or gives undesired access to variables likes document or window?    *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-var $parseMinErr = function(...args) {
-  console.error(args);
-  throw "ERROR";
+var $parseMinErr = function(error, template, ...templateArgs) {
+  var errRegExp = new RegExp('[\\s\\S]*', 'g');
+
+  var message = template.replace(/\{\d+\}/g, function(match) {
+    var index = +match.slice(1, -1);
+
+    return templateArgs[index];
+  });
+
+  throw new Error(error + " " + message);
 };
 
 var objectValueOf = {}.constructor.prototype.valueOf;
@@ -33,6 +40,12 @@ function getStringValue(name) {
   return name + '';
 }
 
+var LITERALS = {
+  'true': true,
+  'false': false,
+  'null': null,
+  'undefined': undefined
+};
 
 var OPERATORS = {}
 
@@ -409,7 +422,9 @@ AST.prototype = {
     } else if (this.expect('{')) {
       primary = this.object();
     } else if (this.selfReferential.hasOwnProperty(this.peek().text)) {
-      primary = copy(this.selfReferential[this.consume().text]);
+      primary = Object.assign({}, this.selfReferential[this.consume().text]);
+    } else if (LITERALS.hasOwnProperty(this.peek().text)) {
+      primary = { type: AST.Literal, value: LITERALS[this.consume().text]};
     } else if (this.peek().identifier) {
       primary = this.identifier();
     } else if (this.peek().constant) {
@@ -1225,4 +1240,4 @@ function $ParseProvider() {
   }
 }
 
-export default $ParseProvider;
+module.exports = $ParseProvider;
