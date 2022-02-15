@@ -45,7 +45,7 @@ execute("internal_code()")(store);
 
 ## Caveats
 
-- It is currently supporting `++` and `--` operators, so use `test = test + 1` instead of `test++`
+- It is not currently supporting `++` and `--` operators, so use `test = test + 1` instead of `test++`
 - Operands are not possible in function calls. For instance, `context.call_a_function(index + 1)` will execute `context.call_a_function(index)`
 
 ## Notes about the autorship
