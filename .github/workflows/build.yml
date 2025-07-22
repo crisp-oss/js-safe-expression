@@ -25,6 +25,15 @@ jobs:
       - name: Verify versions
         run: node --version && npm --version && node -p process.versions.v8
 
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm run test
+
       - name: Release package
         run: npm publish --ignore-scripts --provenance
         env:
