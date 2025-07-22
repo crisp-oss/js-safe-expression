@@ -2,17 +2,26 @@
   "name": "safe-expression",
   "version": "1.0.2",
   "description": "🛡️ A lightweight, CSP-safe and fast javascript expression parser/executor",
-  "main": "index.js",
+  "main": "dist/index.esm.js",
+  "module": "dist/index.esm.js",
+  "sourceType": "module",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/crisp-oss/js-safe-expression.git"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "rollup -c"
   },
   "author": "Google LLC & Crisp IM SAS",
   "license": "MIT",
   "devDependencies": {
+    "rollup": "4.45.1",
+    "@rollup/plugin-commonjs": "28.0.6",
+    "@rollup/plugin-node-resolve": "16.0.1",
+    "@rollup/plugin-terser": "0.4.4",
+    "rollup-plugin-visualizer": "6.0.3",
     "@std/esm": "^0.26.0",
     "mocha": "^9.2.0"
   }

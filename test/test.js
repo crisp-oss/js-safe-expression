@@ -1,6 +1,6 @@
-const assert = require("assert");
+import assert from "assert";
 
-var SafeExpression = require("../index");
+import SafeExpression from "../dist/index.esm.js";
 
 var execute = new SafeExpression();
 
