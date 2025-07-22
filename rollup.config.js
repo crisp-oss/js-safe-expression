@@ -1,5 +1,5 @@
 /*
- * This file is part of crisp-library-client
+ * This file is part of js-safe-expression
  *
  * Copyright (c) 2025 Crisp IM SAS
  * All rights belong to Crisp IM SAS
@@ -14,7 +14,6 @@
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
-import { visualizer } from "rollup-plugin-visualizer";
 
 // Common plugins configuration
 const basePlugins = [
@@ -50,15 +49,7 @@ export default [
       name: '$ParseProvider',
       sourcemap: true
     },
-    plugins: [
-      ...basePlugins,
-      visualizer({
-        filename: "stats-iife.html",
-        title: "Crisp Client IIFE Bundle Analysis",
-        gzipSize: true,
-        brotliSize: true
-      })
-    ],
+    plugins: basePlugins
     treeshake: {
       moduleSideEffects: false,
       propertyReadSideEffects: false
@@ -73,15 +64,7 @@ export default [
       format: "esm",
       sourcemap: true
     },
-    plugins: [
-      ...basePlugins,
-      visualizer({
-        filename: "stats-esm.html",
-        title: "Index ESM Bundle Analysis",
-        gzipSize: true,
-        brotliSize: true
-      })
-    ],
+    plugins: basePlugins,
     treeshake: {
       moduleSideEffects: false,
       propertyReadSideEffects: false
@@ -96,15 +79,7 @@ export default [
       format: "cjs",
       sourcemap: true
     },
-    plugins: [
-      ...basePlugins,
-      visualizer({
-        filename: "stats-cjs.html",
-        title: "Index CJS Bundle Analysis",
-        gzipSize: true,
-        brotliSize: true
-      })
-    ],
+    plugins: basePlugins,
     treeshake: {
       moduleSideEffects: false,
       propertyReadSideEffects: false
