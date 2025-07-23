@@ -1,3 +1,5 @@
+import { AST } from './ast.js';
+
 export function getStringValue(name) {
   // Property names must be strings. This means that non-string objects cannot be used
   // as keys in an object. Any non-string object, including a number, is typecasted
@@ -42,15 +44,15 @@ export function isPure(node, parentIsPure) {
 }
 
 export function isAssignable(ast) {
-  return ast.type === 'Identifier' || ast.type === 'MemberExpression';
+  return ast.type === AST.Identifier || ast.type === AST.MemberExpression;
 }
 
 export function isLiteral(ast) {
   return ast.body.length === 0 ||
       ast.body.length === 1 && (
-      ast.body[0].expression.type === 'Literal' ||
-      ast.body[0].expression.type === 'ArrayExpression' ||
-      ast.body[0].expression.type === 'ObjectExpression');
+      ast.body[0].expression.type === AST.Literal ||
+      ast.body[0].expression.type === AST.ArrayExpression ||
+      ast.body[0].expression.type === AST.ObjectExpression);
 }
 
 export function isConstant(ast) {

@@ -7,23 +7,23 @@ export class AST {
     this.options = options;
   }
 
-  static Program = 'Program';
-  static ExpressionStatement = 'ExpressionStatement';
-  static AssignmentExpression = 'AssignmentExpression';
-  static ConditionalExpression = 'ConditionalExpression';
-  static LogicalExpression = 'LogicalExpression';
-  static BinaryExpression = 'BinaryExpression';
-  static UnaryExpression = 'UnaryExpression';
-  static CallExpression = 'CallExpression';
-  static MemberExpression = 'MemberExpression';
-  static Identifier = 'Identifier';
-  static Literal = 'Literal';
-  static ArrayExpression = 'ArrayExpression';
-  static Property = 'Property';
-  static ObjectExpression = 'ObjectExpression';
-  static ThisExpression = 'ThisExpression';
-  static LocalsExpression = 'LocalsExpression';
-  static NGValueParameter = 'NGValueParameter';
+  static Program = 1;
+  static ExpressionStatement = 2;
+  static AssignmentExpression = 3;
+  static ConditionalExpression = 4;
+  static LogicalExpression = 5;
+  static BinaryExpression = 6;
+  static UnaryExpression = 7;
+  static CallExpression = 8;
+  static MemberExpression = 9;
+  static Identifier = 10;
+  static Literal = 11;
+  static ArrayExpression = 12;
+  static Property = 13;
+  static ObjectExpression = 14;
+  static ThisExpression = 15;
+  static LocalsExpression = 16;
+  static NGValueParameter = 17;
 
   ast(text) {
     this.text = text;

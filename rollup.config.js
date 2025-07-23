@@ -22,19 +22,40 @@ const basePlugins = [
     browser: true
   }),
 
-  // Convert CommonJS modules
-  commonjs(),
-
   // Minify and enable tree shaking
   terser({
     compress: {
-      passes: 2,
+      passes: 3,
       dead_code: true,
-      drop_console: true
+      drop_console: true,
+      pure_getters: true,
+      unsafe: true,
+      unsafe_comps: true,
+      unsafe_math: true,
+      unsafe_methods: true
+    },
+    mangle: {
+      properties: {
+        reserved: [
+          // Public API methods
+          'parse', 'execute',
+
+          // Expression result properties
+          'type', 'value', 'computed', 'optional',
+          // Operator methods
+          'unary+', 'unary-', 'unary!',
+          'binary+', 'binary-', 'binary*', 'binary/', 'binary%',
+          'binary===', 'binary!==', 'binary==', 'binary!=',
+          'binary<', 'binary>', 'binary<=', 'binary>=',
+          'binary&&', 'binary||',
+          'ternary?:'
+        ]
+      }
     },
     format: {
       comments: false
-    }
+    },
+    sourceMap: true
   })
 ];
 
@@ -45,17 +66,23 @@ export default {
     {
       file: 'dist/js-safe-expression.cjs.js',
       format: 'cjs',
-      exports: 'named'
+      exports: 'named',
+      plugins: basePlugins,
+      sourcemap: true
     },
     {
       file: 'dist/js-safe-expression.esm.js',
-      format: 'es'
+      format: 'es',
+      plugins: basePlugins,
+      sourcemap: true
     },
     {
       file: 'dist/js-safe-expression.iife.js',
       format: 'iife',
       name: 'jsSafeExpression',
-      exports: 'named'
+      exports: 'named',
+      plugins: basePlugins,
+      sourcemap: true
     }
   ]
 }; 

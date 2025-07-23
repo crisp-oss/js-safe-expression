@@ -2,8 +2,17 @@
   "name": "safe-expression",
   "version": "1.0.5",
   "description": "🛡️ A lightweight, CSP-safe and fast javascript expression parser/executor",
-  "main": "dist/js-safe-expression.esm.js",
+  "main": "dist/js-safe-expression.cjs.js",
   "module": "dist/js-safe-expression.esm.js",
+  "browser": "dist/js-safe-expression.iife.js",
+  "exports": {
+    ".": {
+      "import": "./dist/js-safe-expression.esm.js",
+      "require": "./dist/js-safe-expression.cjs.js",
+      "browser": "./dist/js-safe-expression.iife.js"
+    }
+  },
+  "sideEffects": false,
   "sourceType": "module",
   "type": "module",
   "repository": {
@@ -18,7 +27,6 @@
   "license": "MIT",
   "devDependencies": {
     "rollup": "4.45.1",
-    "@rollup/plugin-commonjs": "28.0.6",
     "@rollup/plugin-node-resolve": "16.0.1",
     "@rollup/plugin-terser": "0.4.4",
     "@std/esm": "^0.26.0",
