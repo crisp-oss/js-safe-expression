@@ -50,10 +50,6 @@ export default [
       sourcemap: true
     },
     plugins: basePlugins
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false
-    }
   },
 
   // ESM build (for modern bundlers)
@@ -64,11 +60,7 @@ export default [
       format: "esm",
       sourcemap: true
     },
-    plugins: basePlugins,
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false
-    }
+    plugins: basePlugins
   },
 
   // CommonJS build (for Node.js)
@@ -79,10 +71,6 @@ export default [
       format: "cjs",
       sourcemap: true
     },
-    plugins: basePlugins,
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false
-    }
+    plugins: basePlugins
   }
 ]; 
