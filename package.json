@@ -1,6 +1,6 @@
 {
   "name": "safe-expression",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "🛡️ A lightweight, CSP-safe and fast javascript expression parser/executor",
   "main": "dist/js-safe-expression.cjs.js",
   "module": "dist/js-safe-expression.esm.js",
