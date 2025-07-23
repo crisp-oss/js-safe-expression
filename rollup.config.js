@@ -39,38 +39,23 @@ const basePlugins = [
 ];
 
 // Build configurations for different formats
-export default [
-  // IIFE build (for direct browser usage)
-  {
-    input: "src/index.js",
-    output: {
-      file: "dist/index.iife.js",
-      format: "iife",
-      name: '$ParseProvider',
-      sourcemap: true
+export default {
+  input: 'src/index.js',
+  output: [
+    {
+      file: 'dist/js-safe-expression.cjs.js',
+      format: 'cjs',
+      exports: 'named'
     },
-    plugins: basePlugins
-  },
-
-  // ESM build (for modern bundlers)
-  {
-    input: "src/index.js",
-    output: {
-      file: "dist/index.esm.js",
-      format: "esm",
-      sourcemap: true
+    {
+      file: 'dist/js-safe-expression.esm.js',
+      format: 'es'
     },
-    plugins: basePlugins
-  },
-
-  // CommonJS build (for Node.js)
-  {
-    input: "src/index.js",
-    output: {
-      file: "dist/index.cjs.js",
-      format: "cjs",
-      sourcemap: true
-    },
-    plugins: basePlugins
-  }
-]; 
+    {
+      file: 'dist/js-safe-expression.iife.js',
+      format: 'iife',
+      name: 'jsSafeExpression',
+      exports: 'named'
+    }
+  ]
+}; 

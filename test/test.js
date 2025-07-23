@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import SafeExpression from "../dist/index.esm.js";
+import SafeExpression from "../dist/js-safe-expression.esm.js";
 
 var execute = new SafeExpression();
 
@@ -179,7 +179,7 @@ it("should throw syntax error exception for identifiers ending with a dot", func
 
   assert.throws(function() {
     return execute("a .", scope)
-  }, new Error("ueoe Unexpected end of expression: a ."));
+  }, new Error("Unexpected end of expression: a ."));
 });
 
 it("should resolve deeply nested paths (important for CSP mode)", function() {

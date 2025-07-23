@@ -2,8 +2,8 @@
   "name": "safe-expression",
   "version": "1.0.5",
   "description": "🛡️ A lightweight, CSP-safe and fast javascript expression parser/executor",
-  "main": "dist/index.esm.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/js-safe-expression.esm.js",
+  "module": "dist/js-safe-expression.esm.js",
   "sourceType": "module",
   "type": "module",
   "repository": {
