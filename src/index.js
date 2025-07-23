@@ -78,6 +78,9 @@ Lexer.prototype = {
         this.readNumber();
       } else if (this.isIdentifierStart(this.peekMultichar())) {
         this.readIdent();
+      } else if (ch === '?' && this.peek() === '.') {
+        this.tokens.push({index: this.index, text: '?.', optionalChaining: true});
+        this.index += 2;
       } else if (this.is(ch, '(){}[].,;:?')) {
         this.tokens.push({index: this.index, text: ch});
         this.index++;
@@ -434,7 +437,7 @@ AST.prototype = {
     }
 
     var next;
-    while ((next = this.expect('(', '[', '.'))) {
+    while ((next = this.expect('(', '[', '.', '?.'))) {
       if (next.text === '(') {
         primary = {type: AST.CallExpression, callee: primary, arguments: this.parseArguments() };
         this.consume(')');
@@ -443,6 +446,15 @@ AST.prototype = {
         this.consume(']');
       } else if (next.text === '.') {
         primary = { type: AST.MemberExpression, object: primary, property: this.identifier(), computed: false };
+      } else if (next.text === '?.') {
+        // Check if it's optional computed member access (?.[...])
+        if (this.peek('[')) {
+          this.consume('[');
+          primary = { type: AST.MemberExpression, object: primary, property: this.expression(), computed: true, optional: true };
+          this.consume(']');
+        } else {
+          primary = { type: AST.MemberExpression, object: primary, property: this.identifier(), computed: false, optional: true };
+        }
       } else {
         this.throwError('IMPOSSIBLE');
       }
@@ -849,8 +861,8 @@ ASTInterpreter.prototype = {
       }
       if (ast.computed) right = this.recurse(ast.property);
       return ast.computed ?
-        this.computedMember(left, right, context, create) :
-        this.nonComputedMember(left, right, context, create);
+        this.computedMember(left, right, context, create, ast.optional) :
+        this.nonComputedMember(left, right, context, create, ast.optional);
     case AST.CallExpression:
       args = [];
       ast.arguments.forEach(function(expr) {
@@ -1080,12 +1092,15 @@ ASTInterpreter.prototype = {
       }
     };
   },
-  computedMember: function(left, right, context, create) {
+  computedMember: function(left, right, context, create, optional) {
     return function(scope, locals, assign, inputs) {
       var lhs = left(scope, locals, assign, inputs);
       var rhs;
       var value;
-      if (lhs != null) {
+      if (optional && (lhs == null)) {
+        // Optional chaining: return undefined if left side is null/undefined
+        value = undefined;
+      } else if (lhs != null) {
         rhs = right(scope, locals, assign, inputs);
         rhs = getStringValue(rhs);
         if (create && create !== 1) {
@@ -1102,15 +1117,21 @@ ASTInterpreter.prototype = {
       }
     };
   },
-  nonComputedMember: function(left, right, context, create) {
+  nonComputedMember: function(left, right, context, create, optional) {
     return function(scope, locals, assign, inputs) {
       var lhs = left(scope, locals, assign, inputs);
-      if (create && create !== 1) {
-        if (lhs && lhs[right] == null) {
-          lhs[right] = {};
+      var value;
+      if (optional && (lhs == null)) {
+        // Optional chaining: return undefined if left side is null/undefined
+        value = undefined;
+      } else {
+        if (create && create !== 1) {
+          if (lhs && lhs[right] == null) {
+            lhs[right] = {};
+          }
         }
+        value = lhs != null ? lhs[right] : undefined;
       }
-      var value = lhs != null ? lhs[right] : undefined;
       if (context) {
         return {context: lhs, name: right, value: value};
       } else {

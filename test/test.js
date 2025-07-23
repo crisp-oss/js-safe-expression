@@ -253,3 +253,39 @@ it("should evaluate assignments", function() {
   assert.equal(scope.a, 123);
   assert.equal(scope.b, 234);
 });
+
+it("should support optional chaining", function() {
+  var context = {
+    user: {
+      name: 'John',
+      address: {
+        street: '123 Main St',
+        city: 'New York'
+      },
+      getName: function() { return this.name; }
+    },
+    nullValue: null,
+    undefinedValue: undefined
+  };
+
+  // Basic optional chaining
+  assert.equal(execute("user?.name")(context), 'John');
+  assert.equal(execute("nullValue?.name")(context), undefined);
+  assert.equal(execute("undefinedValue?.name")(context), undefined);
+
+  // Nested optional chaining
+  assert.equal(execute("user?.address?.street")(context), '123 Main St');
+  assert.equal(execute("user?.address?.country")(context), undefined);
+  assert.equal(execute("nullValue?.address?.street")(context), undefined);
+
+  // Mixed normal and optional chaining
+  assert.equal(execute("user.address?.street")(context), '123 Main St');
+
+  // Optional chaining with computed member access
+  assert.equal(execute("user?.[\"name\"]")(context), 'John');
+  assert.equal(execute("nullValue?.[\"name\"]")(context), undefined);
+
+  // Optional chaining with method calls
+  assert.equal(execute("user?.getName()")(context), 'John');
+  assert.equal(execute("nullValue?.getName()")(context), undefined);
+});
